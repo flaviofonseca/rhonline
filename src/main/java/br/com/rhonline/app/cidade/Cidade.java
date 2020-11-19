@@ -12,7 +12,7 @@ public class Cidade extends Entidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(length = 150)
     private String nomeCidade;

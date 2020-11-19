@@ -3,7 +3,7 @@ package br.com.rhonline.core.model;
 import java.util.Objects;
 
 public abstract class Entidade {
-    public abstract long getId();
+    public abstract Long getId();
 
     @Override
     public boolean equals(Object o) {

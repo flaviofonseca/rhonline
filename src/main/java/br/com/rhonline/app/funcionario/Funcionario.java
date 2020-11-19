@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -18,11 +20,13 @@ public class Funcionario extends Entidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    @NotEmpty(message = "Nome funcionario nao pode ser vazio.")
     @Column(length = 150, nullable = false)
     private String nomeFuncionario;
 
+    @NotNull(message = "Data de nascimento deve ser preenchida")
     @Column
     private LocalDate dataNascimento;
 
@@ -32,19 +36,21 @@ public class Funcionario extends Entidade {
     @Column(length = 150)
     private String nomeMae;
 
-    @Enumerated
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Sexo sexo;
 
-    @Column
+    @Column(length = 30)
     private String numeroRG;
 
-    @Column
+    @NotEmpty(message = "CPF nao pode ser vazio")
+    @Column(length = 20)
     private String cpf;
 
     @Column
     private String logradouro;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Bairro bairro;
 
     @OneToMany(mappedBy = "dependente", fetch = FetchType.LAZY)

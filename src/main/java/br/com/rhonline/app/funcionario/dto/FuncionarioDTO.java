@@ -9,4 +9,8 @@ public class FuncionarioDTO {
     public Funcionario from() {
         return null;
     }
+
+	public static FuncionarioDTO of(Funcionario funcionarioSalvo) {
+		return null;
+	}
 }

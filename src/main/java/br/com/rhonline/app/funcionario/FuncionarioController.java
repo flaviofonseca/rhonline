@@ -17,9 +17,9 @@ public class FuncionarioController {
     }
 
     @PostMapping("")
-    public ResponseEntity salvar(@RequestBody FuncionarioDTO funcionario) {
+    public ResponseEntity<FuncionarioDTO> salvar(@RequestBody FuncionarioDTO funcionario) {
         Funcionario funcionarioSalvo = funcionarioService.salvar(funcionario.from());
-        return ResponseEntity.ok(funcionarioSalvo);
+        return ResponseEntity.ok(FuncionarioDTO.of(funcionarioSalvo));
     }
 
     @PutMapping("/{id}")
