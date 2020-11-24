@@ -53,7 +53,7 @@ public class Funcionario extends Entidade {
     @ManyToOne(fetch = FetchType.LAZY)
     private Bairro bairro;
 
-    @OneToMany(mappedBy = "dependente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
     private Set<Dependente> dependentes;
 
     @Override

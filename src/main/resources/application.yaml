@@ -1,1 +1,17 @@
-
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/rhonline
+    username: rhonline
+    password: rhonline
+  jpa:
+    database: postgresql
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        use_sql_comments: true
+        format_sql: true
+        type: trace
+        jdbc:
+          lob:
+            non_contextual_creation: true

@@ -3,7 +3,6 @@ package br.com.rhonline.app.estacaoponto;
 import br.com.rhonline.core.model.Entidade;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;

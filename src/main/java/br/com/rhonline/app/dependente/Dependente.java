@@ -1,5 +1,6 @@
 package br.com.rhonline.app.dependente;
 
+import br.com.rhonline.app.funcionario.Funcionario;
 import br.com.rhonline.core.model.Entidade;
 import lombok.Data;
 
@@ -20,4 +21,7 @@ public class Dependente extends Entidade {
 
     @Column
     private LocalDate dataNascimento;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Funcionario funcionario;
 }

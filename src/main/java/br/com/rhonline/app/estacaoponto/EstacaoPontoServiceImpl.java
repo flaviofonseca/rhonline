@@ -30,9 +30,9 @@ public class EstacaoPontoServiceImpl implements EstacaoPontoService {
         EstacaoPonto estacaoPontoSalva = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Estacao ponto nao encontrada."));
 
-        estacaoPontoSalva.setLatitude(from.getLatitude());
-        estacaoPontoSalva.setLongitude(from.getLongitude());
-        estacaoPontoSalva.setNomeEstacao(from.getNomeEstacao());
+//        estacaoPontoSalva.setLatitude(from.getLatitude());
+//        estacaoPontoSalva.setLongitude(from.getLongitude());
+//        estacaoPontoSalva.setNomeEstacao(from.getNomeEstacao());
 
         repository.save(estacaoPontoSalva);
     }
