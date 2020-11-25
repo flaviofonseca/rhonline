@@ -22,6 +22,7 @@ public class Dependente extends Entidade {
     @Column
     private LocalDate dataNascimento;
 
+    @JoinColumn(name = "id_funcionario", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Funcionario funcionario;
 }

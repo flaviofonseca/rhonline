@@ -1,14 +1,13 @@
 package br.com.rhonline.app.funcionario;
 
-import br.com.rhonline.app.bairro.Bairro;
 import br.com.rhonline.app.dependente.Dependente;
+import br.com.rhonline.app.pessoa.Pessoa;
 import br.com.rhonline.core.model.Entidade;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -22,46 +21,18 @@ public class Funcionario extends Entidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Nome funcionario nao pode ser vazio.")
-    @Column(length = 150, nullable = false)
-    private String nomeFuncionario;
-
-    @NotNull(message = "Data de nascimento deve ser preenchida")
-    @Column
-    private LocalDate dataNascimento;
-
-    @Column(length = 150)
-    private String nomePai;
-
-    @Column(length = 150)
-    private String nomeMae;
+    @NotEmpty(message = "Matrícula deve ser preenchida")
+    @Column(length = 15, nullable = false)
+    private String matricula;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Sexo sexo;
+    private LocalDate dataAdmissao;
 
-    @Column(length = 30)
-    private String numeroRG;
-
-    @NotEmpty(message = "CPF nao pode ser vazio")
-    @Column(length = 20)
-    private String cpf;
-
-    @Column
-    private String logradouro;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Bairro bairro;
+    @JoinColumn(name = "id_pessoa", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Pessoa pessoa;
 
     @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
     private Set<Dependente> dependentes;
 
-    @Override
-    public String toString() {
-        return "Funcionario{" +
-                "id=" + id +
-                ", nomeFuncionario='" + nomeFuncionario + '\'' +
-                ", cpf='" + cpf + '\'' +
-                '}';
-    }
 }

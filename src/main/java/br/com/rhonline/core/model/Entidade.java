@@ -17,4 +17,8 @@ public abstract class Entidade {
     public int hashCode() {
         return Objects.hashCode(getId());
     }
+
+    public boolean registroSalvo() {
+        return getId() != null && getId() > 0;
+    }
 }
