@@ -1,5 +1,6 @@
 package br.com.rhonline.app.funcionario.dto;
 
+import br.com.rhonline.app.cargo.dto.CargoDTO;
 import br.com.rhonline.app.funcionario.Funcionario;
 import br.com.rhonline.app.pessoa.dto.PessoaDTO;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class FuncionarioDTO {
     @NotEmpty(message = "Matrícula preenchimento obrigatório")
     private String matricula;
 
+    private CargoDTO cargo;
     private PessoaDTO pessoa;
 
     public Funcionario from() {
@@ -26,7 +28,8 @@ public class FuncionarioDTO {
         funcionario.setId(getId());
         funcionario.setMatricula(getMatricula());
         funcionario.setDataAdmissao(getDataAdmissao());
-        funcionario.setPessoa(pessoa.from());
+        funcionario.setPessoa(getPessoa().from());
+        funcionario.setCargo(getCargo().from());
         return funcionario;
     }
 
@@ -37,6 +40,7 @@ public class FuncionarioDTO {
                 .dataAdmissao(funcionario.getDataAdmissao())
                 .matricula(funcionario.getMatricula())
                 .pessoa(PessoaDTO.of(funcionario.getPessoa()))
+                .cargo(CargoDTO.of(funcionario.getCargo()))
                 .build();
     }
 }

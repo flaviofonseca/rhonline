@@ -1,5 +1,6 @@
 package br.com.rhonline.app.funcionario;
 
+import br.com.rhonline.app.cargo.Cargo;
 import br.com.rhonline.app.dependente.Dependente;
 import br.com.rhonline.app.pessoa.Pessoa;
 import br.com.rhonline.core.model.Entidade;
@@ -31,6 +32,10 @@ public class Funcionario extends Entidade {
     @JoinColumn(name = "id_pessoa", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Pessoa pessoa;
+
+    @JoinColumn(name = "id_cargo", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private Cargo cargo;
 
     @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
     private Set<Dependente> dependentes;

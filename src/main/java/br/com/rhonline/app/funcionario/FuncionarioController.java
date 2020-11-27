@@ -40,13 +40,6 @@ public class FuncionarioController {
         return ResponseEntity.ok(FuncionarioDTO.of(funcionarioSalvo));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity alterar(@PathVariable("id") long id, @RequestBody @Valid FuncionarioDTO funcionario) {
-        // TODO buscar funcionario
-        Funcionario funcionarioSalvo = funcionarioService.alterar(id, funcionario.from());
-        return ResponseEntity.ok(funcionarioSalvo);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity excluir(@PathVariable("id") long id) {
         funcionarioService.excluir(id);

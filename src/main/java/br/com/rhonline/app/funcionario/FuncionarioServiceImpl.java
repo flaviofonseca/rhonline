@@ -4,7 +4,6 @@ import br.com.rhonline.app.pessoa.PessoaService;
 import br.com.rhonline.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,17 +55,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         if (funcionario.getDataAdmissao() == null) {
             throw new BusinessException("Data de adminissão preenchimento obrigatório");
         }
-    }
 
-    @Override
-    @Transactional
-    public Funcionario alterar(long id, Funcionario funcionario) {
-        Funcionario funcionarioSalvo = repository.findById(id).orElseThrow(() -> new RuntimeException("Funcionário não encontrado."));
-//        funcionarioSalvo.setNomeFuncionario(funcionario.getNomeFuncionario());
-//        funcionarioSalvo.setDataNascimento(funcionario.getDataNascimento());
-//        funcionarioSalvo.setCpf(funcionario.getCpf());
-
-        return repository.save(funcionarioSalvo);
+        if(!funcionario.getPessoa().getCidade().registroSalvo()) {
+            throw new BusinessException("Cidade preenchimento obrigatório");
+        }
     }
 
     @Override

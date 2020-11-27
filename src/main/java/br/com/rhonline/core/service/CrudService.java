@@ -6,7 +6,5 @@ public interface CrudService<T extends Entidade> {
 
     T salvar(T entidade);
 
-    T alterar(long id, T entidade);
-
     void excluir(long id);
 }

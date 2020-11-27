@@ -26,8 +26,6 @@ public class GenericExceptionHandler {
 
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public ResponseEntity<CustomErro> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                                                                   HttpHeaders headers,
-                                                                   HttpStatus status,
                                                                    WebRequest request) {
 
         CustomErro customErro = new CustomErro("Erro no servidor ao tentar enviar uma propriedade não existente",
@@ -80,16 +78,6 @@ public class GenericExceptionHandler {
 
         return new ResponseEntity<>(customErro, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-//    @ExceptionHandler({SqlExceptionHelper.class})
-//    public ResponseEntity<Object> handleCustomPSQLException(SqlExceptionHelper ex,
-//                                                            WebRequest request) {
-//
-//        CustomErro customErro = new CustomErro(ex.getMessage(), ex.getMessage());
-//        ex.printStackTrace();
-//
-//        return new ResponseEntity<>(customErro, new HttpHeaders(), HttpStatus.BAD_REQUEST);
-//    }
 
     @ExceptionHandler({SQLException.class})
     public ResponseEntity<Object> handleCustomPSQLException(SQLException ex,
