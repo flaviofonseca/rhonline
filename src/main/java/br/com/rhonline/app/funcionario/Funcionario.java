@@ -1,7 +1,6 @@
 package br.com.rhonline.app.funcionario;
 
 import br.com.rhonline.app.cargo.Cargo;
-import br.com.rhonline.app.dependente.Dependente;
 import br.com.rhonline.app.pessoa.Pessoa;
 import br.com.rhonline.core.model.Entidade;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
-import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -36,8 +34,5 @@ public class Funcionario extends Entidade {
     @JoinColumn(name = "id_cargo", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Cargo cargo;
-
-    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY)
-    private Set<Dependente> dependentes;
 
 }

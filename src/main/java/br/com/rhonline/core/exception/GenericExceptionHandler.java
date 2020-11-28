@@ -1,6 +1,8 @@
 package br.com.rhonline.core.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.GenericJDBCException;
+import org.postgresql.util.PSQLException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.validation.ConstraintViolationException;
 import java.sql.SQLException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @ControllerAdvice
@@ -79,14 +83,19 @@ public class GenericExceptionHandler {
         return new ResponseEntity<>(customErro, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler({SQLException.class})
-    public ResponseEntity<Object> handleCustomPSQLException(SQLException ex,
+    @ExceptionHandler({SQLException.class, GenericJDBCException.class, JpaSystemException.class})
+    public ResponseEntity<Object> handleCustomPSQLException(Exception ex,
                                                             WebRequest request) {
 
-        CustomErro customErro = new CustomErro(ex.getMessage(), ex.getMessage());
-        ex.printStackTrace();
+        AtomicReference<CustomErro> customErro = new AtomicReference();
 
-        return new ResponseEntity<>(customErro, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+        Optional.ofNullable(ex.getCause())
+                .filter(e -> e instanceof GenericJDBCException)
+                .map(e -> e.getCause())
+                .filter(e -> e instanceof PSQLException)
+                .ifPresent(e -> customErro.set(new CustomErro(((PSQLException) e).getServerErrorMessage().getMessage(), e.getMessage())));
+
+        return new ResponseEntity<>(customErro.get(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MissingServletRequestParameterException.class})
@@ -129,7 +138,7 @@ public class GenericExceptionHandler {
                                                                         WebRequest request) {
 
         CustomErro customErro;
-        if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+        if (ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
             org.hibernate.exception.ConstraintViolationException constraintViolationException = (org.hibernate.exception.ConstraintViolationException) ex.getCause();
             customErro = new CustomErro(constraintViolationException.getSQLException().getMessage(), ex.getMessage());
         } else {

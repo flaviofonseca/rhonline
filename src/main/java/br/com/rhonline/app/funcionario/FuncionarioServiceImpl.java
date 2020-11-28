@@ -34,17 +34,10 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Transactional
     public Funcionario salvar(Funcionario funcionario) {
         validarSalvar(funcionario);
-        validarMatriculaJaCadastrada(funcionario);
 
         funcionario.setPessoa(pessoaService.salvarPessoa(funcionario.getPessoa()));
 
         return repository.save(funcionario);
-    }
-
-    private void validarMatriculaJaCadastrada(Funcionario funcionario) {
-        if (repository.matriculaExists(funcionario.getMatricula(), Optional.ofNullable(funcionario.getId()).orElse(0l)) > 0) {
-            throw new BusinessException("Já existe um funcionário com essa matrícula.");
-        }
     }
 
     private void validarSalvar(Funcionario funcionario) {
